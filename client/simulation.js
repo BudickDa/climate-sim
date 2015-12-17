@@ -31,19 +31,26 @@ var seed = {
     }
 }
 
-var nextCell = function(cellData){
-    map[cellData.position] = cellData;
+var nextCell = function (cellData) {
+    var nextCellData = {
+        position: cellData.position,
+        level1: _.clone(cellData.level1),
+        level2: _.clone(cellData.level2),
+        level3: _.clone(cellData.level3),
+        biome: _.clone(cellData.biome),
+    };
+    console.log(nextCellData);
+    if (nextCellData.position != length) {
+        nextCellData.position++;
+    }
+    map[nextCellData.position] = nextCellData;
     mapDep.changed();
 
-    if(cellData.position === length){
-        cellData.position = 0;
-    }
-    cellData.position++;
-    return cellData;
+    return nextCellData;
 }
-startSimulation = function(cellData){
+startSimulation = function (cellData) {
     var simulation = _.compose(manipulate, setBiome, getClouds, getTemperature, getWindVelocity, getHumidity, getRain, nextCell);
-    Meteor.setInterval(function(){
+    Meteor.setInterval(function () {
         simulation(cellData);
     }, 1000);
 }
@@ -62,7 +69,8 @@ Template.map.helpers({
                 H: ${cell.level1.humidity} %,</br>
                 V: ${cell.level1.windVelocity} m/s,</br>
                 C: ${cell.level1.cloudy}</br>
-                R: ${cell.level1.rainy}
+                R: ${cell.level1.rainy}</br></br>
+                Position: ${cell.position}
             </div>
         `;
     }
