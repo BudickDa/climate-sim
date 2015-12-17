@@ -1,0 +1,6 @@
+/* CSS declarations go here */
+.cell{
+    float: left;
+    height: 150px;
+    width: 150px;
+}

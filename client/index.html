@@ -1,0 +1,13 @@
+<head>
+    <title>ClimateSim</title>
+</head>
+
+<body>
+{{> map}}
+</body>
+
+<template name="map">
+    {{#each cells}}
+        {{{display this}}}
+    {{/each}}
+</template>
