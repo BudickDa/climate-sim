@@ -1,5 +1,5 @@
 getHumidity = function (cellData) {
-    if (cellData.temperature > 0) {
+    if (cellData.level1.temperature > 0) {
         cellData.level1.humidity +=5;
         cellData.level1.temperature -= 0.5;
 

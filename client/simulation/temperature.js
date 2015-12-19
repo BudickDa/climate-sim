@@ -30,14 +30,15 @@ getTemperature = function (cellData) {
     /**
      * stabilize extreme temperature
      */
+
     if(cellData.level1.temperature > 30){
-        cellData.level1.temperature = 32;
+        cellData.level1.temperature = chance.floating({min:28, max: 32});
     }
     if(cellData.level2.temperature > 10){
-        cellData.level3.temperature = 11;
+        cellData.level3.temperature = chance.floating({min:8, max: 12});
     }
     if(cellData.level3.temperature > 0){
-        cellData.level3.temperature = -2;
+        cellData.level3.temperature = chance.floating({min:-1, max: 1});
     }
 
 

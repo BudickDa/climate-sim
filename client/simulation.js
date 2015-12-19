@@ -1,5 +1,5 @@
 map = [];
-length = 5;
+length = 500;
 mapDep = new Tracker.Dependency;
 
 
@@ -29,50 +29,62 @@ var seed = {
         rainy: false,
         cloudy: true
     }
-}
+};
 
-var nextCell = function (cellData) {
+
+//var simulation = _.compose(manipulate, getClouds, getTemperature, getWindVelocity, getHumidity, getRain, nextCell);
+
+var simulation = _.compose(nextCell, getClouds, getTemperature, getWindVelocity, getHumidity, getRain, manipulate);
+function nextCell(cellData) {
     var nextCellData = {
         position: cellData.position,
         level1: _.clone(cellData.level1),
         level2: _.clone(cellData.level2),
         level3: _.clone(cellData.level3),
-        biome: _.clone(cellData.biome),
+        biome: setBiome(cellData)
     };
-    console.log(nextCellData);
-    if (nextCellData.position != length) {
+    if (nextCellData.position < length) {
+        map[nextCellData.position] = nextCellData;
         nextCellData.position++;
+        mapDep.changed();
+
+        return simulation(nextCellData);
     }
-    map[nextCellData.position] = nextCellData;
-    mapDep.changed();
-
-    return nextCellData;
 }
-startSimulation = function (cellData) {
-    var simulation = _.compose(manipulate, setBiome, getClouds, getTemperature, getWindVelocity, getHumidity, getRain, nextCell);
-    Meteor.setInterval(function () {
-        simulation(cellData);
-    }, 1000);
+Meteor.setInterval(function () {
+    simulation(seed);
+}, 500);
+
+
+function displayClouds(cloudy) {
+    if (cloudy) {
+        return '<i class="fa fa-cloud"></i>';
+    }
+    return '<i class="fa fa-sun-o"></i>';
 }
-startSimulation(seed);
 
-
+function displayRain(rainy) {
+    if (rainy) {
+        return '<b>Regen</b>';
+    }
+    return '';
+}
 Template.map.helpers({
     cells: function () {
         mapDep.depend();
         return map;
-    },
+    }
+    ,
     display: function (cell) {
+        var rain = displayRain(cell.level1.rainy), clouds = displayClouds(cell.level1.cloudy);
         return `
             <div class="cell" style="background-color:${cell.biome.color};">
-                T: ${cell.level1.temperature} C,</br>
-                H: ${cell.level1.humidity} %,</br>
-                V: ${cell.level1.windVelocity} m/s,</br>
-                C: ${cell.level1.cloudy}</br>
-                R: ${cell.level1.rainy}</br></br>
-                Position: ${cell.position}
+                ${Math.floor(cell.level1.temperature)} &deg;C, H: ${cell.level1.humidity} %<br/>
+                Wind: ${cell.level1.windVelocity} m/s,</br>
+                ${clouds} ${rain}
             </div>
         `;
     }
-});
+})
+;
 
