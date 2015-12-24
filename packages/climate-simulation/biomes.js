@@ -24,7 +24,7 @@ Sim.biomeTable = [
         color: '#D8C14B'
     },
     {
-        name: 'grassland',
+        name: 'grasland',
         temperature: [0, 45],
         humidity: [10, 999],
         color: '#6CAA68'
