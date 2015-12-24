@@ -37,6 +37,9 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('ecmascript');
+  api.use('tracker');
+  api.use('reactive-var');
+
   api.use('thepumpinglemma:chance');
   api.use('momentjs:moment');
   api.use('tinytest');
@@ -45,11 +48,14 @@ Package.onTest(function(api) {
    * Simulation files
    */
   api.addFiles('climate-simulation.js');
+  api.addFiles('biomes.js');
+  api.addFiles('seed.js');
   api.addFiles('simulation/clouds.js');
   api.addFiles('simulation/humidity.js');
   api.addFiles('simulation/sun.js');
   api.addFiles('simulation/temperature.js');
   api.addFiles('simulation/wind.js');
+  api.addFiles('simulation/biome.js');
 
   api.addFiles('test_sun.js');
 });

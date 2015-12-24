@@ -1,11 +1,7 @@
 /**
- * One cell has 100 x 100 m.
  * The power of the sun is 1367 W / m²
- *
- *
- *
  */
-sunPower = 100 * 100 * 1367;
+sunPower = 1367;
 
 
 /**
@@ -194,12 +190,10 @@ Sim.getElevationAngle = getElevationAngle;
  * @returns {number} Energy of the
  */
 Sim.getSun = function (date, latitude, longitude) {
-    latitude = latitude || 30;
-    date = date || new Date();
     var elevationAngel = Sim.getElevationAngle(date, latitude, longitude);
     //if angle is <0 => night -> no sun
     if(elevationAngel<0){
         return 0;
     }
-    return sunPower * Math.sin(elevationAngel);
+    return sunPower * MathD.sin(elevationAngel);
 };

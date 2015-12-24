@@ -1,6 +1,10 @@
 Sim.getTemperature = function (cellData) {
     var sunEnergy = Sim.getSun(Sim.date.get(), cellData.latitude, cellData.longitude);
-    _energyToTemperatur = 0.5;
+
+    //store sundata to display on map
+    cellData.sun =  sunEnergy;
+
+    _energyToTemperatur = 0.5 + chance.floating({min:-0.2, max: 0.2});
 
     /**
      * top level
@@ -39,18 +43,17 @@ Sim.getTemperature = function (cellData) {
         cellData.level[0].temperature = chance.floating({min: 30, max: 35});
     }
     if (cellData.level[1].temperature > 10) {
-        cellData.level[1].temperature = chance.floating({min: 8, max: 12});
+        cellData.level[1].temperature = chance.floating({min: 6, max: 10});
     }
     if (cellData.level[2].temperature > 0) {
-        cellData.level[2].temperature = chance.floating({min: -1, max: 1});
+        cellData.level[2].temperature = chance.floating({min: -5, max: 0});
     }
 
     _.forEach(cellData.level, (data)=>{
-        if(data.temperature < -240){
-            data.temperature = chance.floating({min: -273.1, max: 240});
+        if(data.temperature < -15){
+            data.temperature = chance.floating({min: -16, max: -14});
         }
     })
-
 
     return cellData;
 };

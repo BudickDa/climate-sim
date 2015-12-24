@@ -102,4 +102,11 @@ Tinytest.add('Test Sim.getElevationAngle()', function (test) {
 
     test.equal(Sim.roundNumber(Sim.getElevationAngle(new Date(2015, 11, 21, 12, 0, 0, 0), 52.3, 13.3), 3), 14.252); //astronom. winter
     test.equal(Sim.roundNumber(Sim.getElevationAngle(new Date(2015, 5, 21, 12, 0, 0, 0), 52.3, 13.3), 3), 61.086); //astronom. summer
+
+    test.equal(Sim.roundNumber(Sim.getElevationAngle(new Date(2015, 11, 24, 11, 40, 36, 0), 52.3, 30.6), 3), 12.406);
+
+});
+
+Tinytest.add('Test Sim.getSun()', function (test) {
+    test.equal(Sim.roundNumber(Sim.getSun(new Date(2015, 11, 24, 11, 40, 36, 0), 52.3, 30.6), 3), 293.686);
 });
